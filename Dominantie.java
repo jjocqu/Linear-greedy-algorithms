@@ -13,7 +13,7 @@ public class Dominantie {
         for (Graph g: graphs) {
             ArrayList<Integer> result = g.findDominance();
             for (int node : result) {
-                System.out.print(node + " ");
+                System.out.print((node+1) + " "); //nodes from 1..n
             }
             System.out.println();
         }
