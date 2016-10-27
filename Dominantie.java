@@ -17,11 +17,5 @@ public class Dominantie {
             }
             System.out.println();
         }
-
-        /*for (Graph g : graphs) {
-            System.out.println("printing graph: ");
-            g.printGraph();
-            System.out.println();
-        }*/
     }
 }
