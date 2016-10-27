@@ -8,13 +8,15 @@ public class Dominantie {
     public static void main(String[] args) throws FileNotFoundException {
 
         GraphReader reader = new GraphReader();
-        ArrayList<Graph> graphs = reader.readGraphs("src\\gretig\\grafen\\alle_5.sec");
+        ArrayList<Graph> graphs = reader.readGraphs();
 
-        Graph g = graphs.get(0);
-
-        ArrayList<Integer> result = g.findDominance();
-
-        System.out.println(result);
+        for (Graph g: graphs) {
+            ArrayList<Integer> result = g.findDominance();
+            for (int node : result) {
+                System.out.print(node + " ");
+            }
+            System.out.println();
+        }
 
         /*for (Graph g : graphs) {
             System.out.println("printing graph: ");

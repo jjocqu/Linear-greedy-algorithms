@@ -28,25 +28,26 @@ public class Tests {
 
     @Test
     public void testFindDominance() throws Exception {
-        GraphReader reader = new GraphReader();
-        ArrayList<Graph> graphs = reader.readGraphs("src\\gretig\\grafen\\alle_5.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\alle_6.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\alle_7.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\alle_8.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\graaf1.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\graaf2.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\graaf3.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\graaf4.sec");
-        checkGraphs(graphs);
-        graphs = reader.readGraphs("src\\gretig\\grafen\\graaf5.sec");
-        checkGraphs(graphs);
+        GraphReader reader;
+
+        reader = new GraphReader("src\\gretig\\grafen\\alle_5.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\alle_6.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\alle_7.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\alle_8.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\graaf1.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\graaf2.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\graaf3.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\graaf4.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\graaf5.sec");
+        checkGraphs(reader.readGraphs());
         System.out.println("solution quality: " + solutionQuality);
     }
 

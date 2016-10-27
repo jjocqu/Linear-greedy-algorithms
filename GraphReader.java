@@ -5,26 +5,39 @@ import java.util.ArrayList;
 
 public class GraphReader {
 
-    public ArrayList<Graph> readGraphs(String filename) throws FileNotFoundException {
-        //BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-        BufferedReader stdin = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-        int bytes_per_num = 0;
-        int nodes = 0;
-        int edges = 0;
+    private BufferedReader in;
+
+   //constructor for tests only
+    public GraphReader(String filename) {
+        try {
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public GraphReader() {
+        in = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    public ArrayList<Graph> readGraphs() {
+        int bytes_per_num ;
+        int nodes;
+        int edges;
 
         ArrayList<Graph> graphs = new ArrayList<>();
 
         try {
-            stdin.skip(7); //read >>SEC<<
-            bytes_per_num = stdin.read();
+            in.skip(7); //read >>SEC<<
+            bytes_per_num = in.read();
 
             while (bytes_per_num != -1) { //while not EOF
                 nodes = 0;
                 edges = 0;
 
                 for (int i = 0; i < bytes_per_num; i++) { //calculate nodes and edges
-                    nodes += stdin.read() * Math.pow(256, 8 * i);
-                    edges += stdin.read() * Math.pow(256, 8 * i);
+                    nodes += in.read() * Math.pow(256, 8 * i);
+                    edges += in.read() * Math.pow(256, 8 * i);
                 }
 
                 Graph graph = new Graph(nodes);
@@ -35,7 +48,7 @@ public class GraphReader {
                     do {
                         num = 0;
                         for (int j = 0; j < bytes_per_num; j++) {
-                            num += stdin.read() * Math.pow(256, 8 * j);
+                            num += in.read() * Math.pow(256, 8 * j);
                         }
                         if (num != 0) {
                             temp.add(num - 1); //add edge with number 'num-1' (edges are numbered started from 1, we need them from 0)
@@ -43,7 +56,7 @@ public class GraphReader {
                     } while (num != 0);
                     graph.addNode(i, temp); //all edges from node added -> add node to graph
                 }
-                bytes_per_num = stdin.read();
+                bytes_per_num = in.read();
 
                 graphs.add(graph);
                 //graph.printGraph();
