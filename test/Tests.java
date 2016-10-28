@@ -28,6 +28,7 @@ public class Tests {
 
     @Test
     public void testFindDominance() throws Exception {
+        solutionQuality = 0;
         GraphReader reader;
 
         reader = new GraphReader("src\\gretig\\grafen\\alle_5.sec");
@@ -49,6 +50,31 @@ public class Tests {
         reader = new GraphReader("src\\gretig\\grafen\\graaf5.sec");
         checkGraphs(reader.readGraphs());
         System.out.println("solution quality: " + solutionQuality);
+    }
+
+    @Test
+    public void testFindDominance2() throws Exception {
+        solutionQuality = 0;
+        GraphReader reader;
+
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf1.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf2.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf3.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf4.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf5.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf6.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf7.sec");
+        checkGraphs(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\graaf8.sec");
+        checkGraphs(reader.readGraphs());
+
+        System.out.println("solution quality testset: " + solutionQuality);
     }
 
     public void checkGraphs(ArrayList<Graph> graphs) {

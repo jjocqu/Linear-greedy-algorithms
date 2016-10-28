@@ -19,7 +19,7 @@ public class Graph {
 
         nodes_neighbours = new ArrayList<>(nodes);
         for (int i = 0; i < nodes; i++) {
-            nodes_neighbours.add(new ArrayList<>(nodes));
+            nodes_neighbours.add(new ArrayList<>());
         }
     }
 
@@ -90,6 +90,9 @@ public class Graph {
         return result;
     }
 
+    
+    //first loop from 1..n
+    //second loop frop 1..n
     public ArrayList<Integer> findDominance() {
         ArrayList<Integer> sorted = sortGraph();
         int n = sorted.size();
@@ -115,7 +118,7 @@ public class Graph {
         }
 
         //try to remove nodes from result (while maintaining dominance)
-        for (int i = 0; i < result.size(); i++) {
+        for (int i = result.size()-1; i >= 0; i--) {
             boolean undo = false;
             int x = result.get(i);
             if (freq[x] != 1) {
@@ -139,4 +142,5 @@ public class Graph {
 
         return result;
     }
+
 }

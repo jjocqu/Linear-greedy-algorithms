@@ -35,9 +35,12 @@ public class GraphReader {
                 nodes = 0;
                 edges = 0;
 
-                for (int i = 0; i < bytes_per_num; i++) { //calculate nodes and edges
-                    nodes += in.read() * Math.pow(256, 8 * i);
-                    edges += in.read() * Math.pow(256, 8 * i);
+                for (int i = 0; i < bytes_per_num; i++) { //calculate nodes
+                    nodes += in.read() * Math.pow(256, i);
+                }
+
+                for (int i = 0; i < bytes_per_num; i++) { //calculate edges
+                    edges += in.read() * Math.pow(256, i);
                 }
 
                 Graph graph = new Graph(nodes);
