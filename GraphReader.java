@@ -5,19 +5,19 @@ import java.util.ArrayList;
 
 public class GraphReader {
 
-    private BufferedReader in;
+    private InputStream in;
 
    //constructor for tests only
     public GraphReader(String filename) {
         try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+            in = new BufferedInputStream(new FileInputStream(filename));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public GraphReader() {
-        in = new BufferedReader(new InputStreamReader(System.in));
+        in = new BufferedInputStream(System.in);
     }
 
     public ArrayList<Graph> readGraphs() {
@@ -43,7 +43,7 @@ public class GraphReader {
                     edges += in.read() * Math.pow(256, i);
                 }
 
-                Graph graph = new Graph(nodes);
+                Graph graph = new Graph(nodes, edges);
 
                 for (int i = 0; i < nodes; i++) { //read every node and its edges
                     int num;
@@ -51,7 +51,7 @@ public class GraphReader {
                     do {
                         num = 0;
                         for (int j = 0; j < bytes_per_num; j++) {
-                            num += in.read() * Math.pow(256, 8 * j);
+                            num += in.read() * Math.pow(256, j);
                         }
                         if (num != 0) {
                             temp.add(num - 1); //add edge with number 'num-1' (edges are numbered started from 1, we need them from 0)

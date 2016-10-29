@@ -27,7 +27,7 @@ public class Tests {
     }
 
     @Test
-    public void testFindDominance() throws Exception {
+    public void testFindDominance1() throws Exception {
         solutionQuality = 0;
         GraphReader reader;
 
@@ -49,13 +49,17 @@ public class Tests {
         checkGraphs(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf5.sec");
         checkGraphs(reader.readGraphs());
-        System.out.println("solution quality: " + solutionQuality);
+        System.out.println("solution quality small graphs: " + solutionQuality);
     }
 
     @Test
     public void testFindDominance2() throws Exception {
         solutionQuality = 0;
         GraphReader reader;
+
+        ArrayList<Graph> result;
+        long start;
+        long end;
 
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf1.sec");
         checkGraphs(reader.readGraphs());

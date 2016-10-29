@@ -5,17 +5,24 @@ import java.util.ArrayList;
 public class Graph {
 
     private int numberOfNodes;
+    private int numberOfEdges;
 
     //combinatorisch ingebed
     private ArrayList<ArrayList<Integer>> nodes_neighbours;
 
     //tijdens inlezen zijn niet alle toppen bekend
     //toppen waarvan er maar 1 boog bekend is worden hier opgeslagen
-    private ArrayList<Integer> nodes = new ArrayList<>();
-    private ArrayList<Integer> edges = new ArrayList<>();
+    private int[] unkownEdges;
 
-    public Graph(int nodes) {
+    public Graph(int nodes, int edges) {
         numberOfNodes = nodes;
+        numberOfEdges = edges;
+
+        unkownEdges = new int[edges];
+
+        for (int i = 0; i < edges; i++) {
+            unkownEdges[i] = -1; //because 0 is a valid node
+        }
 
         nodes_neighbours = new ArrayList<>(nodes);
         for (int i = 0; i < nodes; i++) {
@@ -29,17 +36,13 @@ public class Graph {
 
     public void addNode(int node, ArrayList<Integer> edges) {
         for (int i = 0; i < edges.size(); i++) {
-            if (this.edges.contains(edges.get(i))) { //2e top van boog gevonden
-                int index = this.edges.indexOf(edges.get(i));
+            int index = edges.get(i);
+            if (unkownEdges[index] != -1) { //2e top van boog gevonden
                 //add to nodes_neighbours
-                int neighbour = nodes.get(index);
+                int neighbour = unkownEdges[index];
                 addNeighbour(node, neighbour);
-                //remove node and edge from lists
-                nodes.remove(index);
-                this.edges.remove(index);
             } else { //add node and edge to lists
-                nodes.add(node);
-                this.edges.add(edges.get(i));
+                unkownEdges[index] = node;
             }
         }
     }
@@ -92,7 +95,7 @@ public class Graph {
 
     
     //first loop from 1..n
-    //second loop frop 1..n
+    //second loop frop n..1
     public ArrayList<Integer> findDominance() {
         ArrayList<Integer> sorted = sortGraph();
         int n = sorted.size();
