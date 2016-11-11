@@ -16,6 +16,9 @@ public class Tests {
 
     private long solutionQuality = 0;
 
+    private long cycles = 0;
+    private long total_graphs = 0;
+
     @Before
     public void setUp() throws Exception {
 
@@ -26,33 +29,33 @@ public class Tests {
 
     }
 
-    @Test
+    //@Test
     public void testFindDominance1() throws Exception {
         solutionQuality = 0;
         GraphReader reader;
 
         reader = new GraphReader("src\\gretig\\grafen\\alle_5.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\alle_6.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\alle_7.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\alle_8.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf1.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf2.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf3.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf4.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\graaf5.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         System.out.println("solution quality small graphs: " + solutionQuality);
     }
 
-    @Test
+    //@Test
     public void testFindDominance2() throws Exception {
         solutionQuality = 0;
         GraphReader reader;
@@ -62,29 +65,29 @@ public class Tests {
         long end;
 
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf1.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf2.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf3.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf4.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf5.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf6.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf7.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen_testset\\graaf8.sec");
-        checkGraphs(reader.readGraphs());
+        checkDominance(reader.readGraphs());
 
         System.out.println("solution quality testset: " + solutionQuality);
     }
 
-    public void checkGraphs(ArrayList<Graph> graphs) {
+    public void checkDominance(ArrayList<Graph> graphs) {
         for (Graph g: graphs) {
             ArrayList<Integer> solution = g.findDominance();
-            if (!isDominant(g, solution)) {
+            if (!isDominant(g, solution)) { //print error
                 g.printGraph();
                 System.out.println(solution);
             }
@@ -110,6 +113,60 @@ public class Tests {
             }
         }
 
+        return true;
+    }
+
+
+    @Test
+    public void testFindHamilton() {
+        GraphReader reader;
+
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_05.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_06.sec");
+        checkHamilton(reader.readGraphs());
+
+        System.out.println("found cycles: " + cycles + " out of: " + total_graphs);
+    }
+
+    public void checkHamilton(ArrayList<Graph> graphs) {
+        for (Graph g: graphs) {
+            ArrayList<Integer> solution = g.findHamilton();
+            total_graphs += graphs.size();
+            boolean valid = isHamilton(g, solution);
+            if (!valid) { //print error
+                g.printGraph();
+                System.out.println(solution);
+            }
+            assertTrue(valid);
+        }
+    }
+
+    public boolean isHamilton(Graph graph, ArrayList<Integer> solution) {
+
+        if (solution == null) { //no cycle found is always correct
+            return true;
+        }
+
+        if (solution.size() != graph.getNumberOfNodes()) {
+            return false;
+        }
+
+        //every node must be neighbour of next node in solution (and last of first)
+        for (int i = 0; i < solution.size(); i++) {
+            if (!graph.getNeighbours(solution.get(i)).contains(solution.get((i + 1) % solution.size()))) {
+                return false;
+            }
+        }
+
+        //every node must be in solution
+        for (int i = 0; i < graph.getNumberOfNodes(); i++) {
+            if (!solution.contains(i)) {
+                return false;
+            }
+        }
+
+        cycles++;
         return true;
     }
 }

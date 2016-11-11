@@ -69,6 +69,7 @@ public class Graph {
 
     /**
      * uses counting sort to sort list in O(n)
+     * large_>small
      * @return sorted list
      */
     private ArrayList<Integer> sortGraph() {
@@ -146,4 +147,90 @@ public class Graph {
         return result;
     }
 
+    //returns result or null when no hamilton cycle is found
+    public ArrayList<Integer> findHamilton() {
+        ArrayList<Integer> result = new ArrayList<>(numberOfNodes);
+        int[] removed = new int[numberOfNodes];
+        boolean[] inHamilton = new boolean[numberOfNodes];
+
+        //current node
+        int cur = 0;
+
+        //find node with least neighbours
+        for (int i = 0; i < numberOfNodes; i++) {
+            if (getNeighbours(i).size() == 2) { //quit if 2 neighbours
+                cur = i;
+                break;
+            }
+            if (getNeighbours(i).size() < getNeighbours(cur).size()) { //new min found
+                cur = i;
+            }
+        }
+
+        //try to find hamilton
+        for (int i = 0; i < numberOfNodes-1; i++) {
+            result.add(cur);
+
+            //update lists
+            inHamilton[cur] = true;
+            for (int neighbour : getNeighbours(cur)) {
+                removed[neighbour]++; //'remove' cur with neighbours
+            }
+
+            //find next node: node with least neighbours
+            int min = -1;
+            boolean nodeFound = false;
+            for (int neighbour : getNeighbours(cur)) {
+                if (!inHamilton[neighbour]) {
+                    //number of neighbours not in cycle yet = all neighbours - removed neighbours
+                    if (getNeighbours(neighbour).size()-removed[neighbour] == 1) { //quit if 1 neighbour
+                        //if only 1 neighbour left in starting node
+                        //make sure we don't go to that node unless it is the last node
+                        if (i != numberOfNodes -1) {
+                            if (getNeighbours(result.get(0)).size() - 1 == removed[result.get(0)]
+                                    && !getNeighbours(result.get(0)).contains(neighbour)) {
+                                min = neighbour;
+                                nodeFound = true;
+                                break;
+                            }
+                        } else {
+                            min = neighbour;
+                            nodeFound = true;
+                            break;
+                        }
+                    }
+
+                    if (min == -1 || getNeighbours(neighbour).size()-removed[neighbour] < getNeighbours(min).size()-removed[min]) {
+                        //if only 1 neighbour left in starting node
+                        //make sure we don't go to that node unless it is the last node
+                        if (i != numberOfNodes - 2) {
+                            if (!(getNeighbours(result.get(0)).size() - 1 == removed[result.get(0)]
+                                    && getNeighbours(result.get(0)).contains(neighbour))) {
+                                min = neighbour;
+                                nodeFound = true;
+                            }
+                        } else {
+                            min = neighbour;
+                            nodeFound = true;
+                        }
+                    }
+                }
+            }
+            if (nodeFound) {
+                cur = min;
+            } else { //no new node found -> no cycle found
+                return null;
+            }
+        }
+
+        //add last node
+        result.add(cur);
+
+        //check if last en first node are neighbours -> cycle
+        if (getNeighbours(result.get(0)).contains(result.get(numberOfNodes-1))) {
+            return result;
+        }
+
+        return null;
+    }
 }
