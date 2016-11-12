@@ -125,8 +125,33 @@ public class Tests {
         checkHamilton(reader.readGraphs());
         reader = new GraphReader("src\\gretig\\grafen\\triang_alle_06.sec");
         checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_07.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_08.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_09.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_10.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_11.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_alle_12.sec");
+        checkHamilton(reader.readGraphs());
 
-        System.out.println("found cycles: " + cycles + " out of: " + total_graphs);
+        System.out.println("found: " + cycles + " out of: " + total_graphs + " cycles");
+
+        //reset for nonham graphs
+        cycles = 0;
+        total_graphs = 0;
+
+        reader = new GraphReader("src\\gretig\\grafen\\triang_nonham_1.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_nonham_2.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen\\triang_nonham_3.sec");
+        checkHamilton(reader.readGraphs());
+
+        System.out.println("nonham: found: " + cycles + " out of: " + total_graphs + " cycles");
     }
 
     public void checkHamilton(ArrayList<Graph> graphs) {
