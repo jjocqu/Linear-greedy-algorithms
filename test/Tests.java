@@ -155,9 +155,9 @@ public class Tests {
     }
 
     public void checkHamilton(ArrayList<Graph> graphs) {
+        total_graphs += graphs.size();
         for (Graph g: graphs) {
             ArrayList<Integer> solution = g.findHamilton();
-            total_graphs += graphs.size();
             boolean valid = isHamilton(g, solution);
             if (!valid) { //print error
                 g.printGraph();
