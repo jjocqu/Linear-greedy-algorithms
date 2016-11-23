@@ -118,8 +118,10 @@ public class Tests {
 
 
     @Test
-    public void testFindHamilton() {
+    public void testFindHamilton1() {
         GraphReader reader;
+        cycles = 0;
+        total_graphs = 0;
 
         reader = new GraphReader("src\\gretig\\grafen\\triang_alle_05.sec");
         checkHamilton(reader.readGraphs());
@@ -152,6 +154,20 @@ public class Tests {
         checkHamilton(reader.readGraphs());
 
         System.out.println("nonham: found: " + cycles + " out of: " + total_graphs + " cycles");
+    }
+
+    @Test
+    public void testFindHamilton2() {
+        GraphReader reader;
+        cycles = 0;
+        total_graphs = 0;
+
+        reader = new GraphReader("src\\gretig\\grafen_testset\\triang1.sec");
+        checkHamilton(reader.readGraphs());
+        reader = new GraphReader("src\\gretig\\grafen_testset\\triang2.sec");
+        checkHamilton(reader.readGraphs());
+
+        System.out.println("testset: found: " + cycles + " out of: " + total_graphs + " cycles");
     }
 
     public void checkHamilton(ArrayList<Graph> graphs) {
